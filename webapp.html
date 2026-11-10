@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tanner Nelson | Fairway Scorecard Web App</title>
+  <!-- Bootstrap 5 CSS (jsDelivr CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom site styles -->
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Shared navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#0b2a4a;">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Tanner Nelson</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="resume.html">Résumé</a></li>
+          <li class="nav-item"><a class="nav-link" href="tableau.html">Tableau Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link active" href="webapp.html">Web App</a></li>
+          <li class="nav-item"><a class="nav-link" href="html/scratch.html">Scratch Page</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-5">
+    <h1 class="section-title">Fairway Scorecard</h1>
+    <p>
+      Golf is one of my favorite hobbies, so for my web app I built a simple round tracker.
+      Log a round below and the app keeps your history and updates your stats automatically.
+      Your rounds are saved in your browser (localStorage), so they are still here when you
+      come back to this page.
+    </p>
+
+    <!-- Live stats -->
+    <div class="row g-3 my-4 text-center">
+      <div class="col-6 col-md-3">
+        <div class="card"><div class="card-body">
+          <h2 class="h6 text-muted">Rounds Played</h2>
+          <p class="display-6 mb-0" id="statRounds">0</p>
+        </div></div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card"><div class="card-body">
+          <h2 class="h6 text-muted">Average Score</h2>
+          <p class="display-6 mb-0" id="statAvg">&mdash;</p>
+        </div></div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card"><div class="card-body">
+          <h2 class="h6 text-muted">Best Round</h2>
+          <p class="display-6 mb-0" id="statBest">&mdash;</p>
+        </div></div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card"><div class="card-body">
+          <h2 class="h6 text-muted">Average vs Par</h2>
+          <p class="display-6 mb-0" id="statVsPar">&mdash;</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Add-a-round form -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="h4">Add a Round</h2>
+        <form id="roundForm" class="row g-3" novalidate>
+          <div class="col-md-3">
+            <label class="form-label" for="roundDate">Date</label>
+            <input class="form-control" type="date" id="roundDate" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="courseName">Course Name</label>
+            <input class="form-control" type="text" id="courseName" placeholder="e.g., Sleepy Ridge" maxlength="60" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label" for="parInput">Par</label>
+            <input class="form-control" type="number" id="parInput" value="72" min="27" max="90" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label" for="scoreInput">Your Score</label>
+            <input class="form-control" type="number" id="scoreInput" placeholder="e.g., 88" min="18" max="300" required>
+          </div>
+          <div class="col-md-1 d-flex align-items-end">
+            <button class="btn btn-primary w-100" type="submit">Add</button>
+          </div>
+          <div class="col-12">
+            <p class="text-danger mb-0" id="formError" hidden>Please enter a date, a course name, a par between 27 and 90, and a score between 18 and 300.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Rounds table -->
+    <h2 class="h4">My Rounds</h2>
+    <p class="text-muted" id="emptyMsg">No rounds logged yet. Add your first round above!</p>
+    <div class="table-responsive">
+      <table class="table table-striped align-middle" id="roundsTable">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Course</th>
+            <th scope="col">Par</th>
+            <th scope="col">Score</th>
+            <th scope="col">vs Par</th>
+            <th scope="col">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="roundsBody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Shared footer -->
+  <footer class="site-footer">
+    <p class="mb-1">
+      Connect with me:
+      <a href="https://www.linkedin.com/in/tanner-nelson-84b321318">LinkedIn</a> |
+      <a href="mailto:tnelso21@byu.edu">tnelso21@byu.edu</a> |
+      <a href="https://public.tableau.com/app/profile/tanner.nelson2152">Tableau Public</a>
+    </p>
+    <p class="mb-0">&copy; 2026 Tanner Nelson &mdash; BYU Intro to Information Systems Final Project</p>
+  </footer>
+
+  <!-- Bootstrap 5 JS bundle (jsDelivr CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Fairway Scorecard app logic (plain JavaScript, no libraries) -->
+  <script>
+    'use strict';
+
+    // ---- Data layer: rounds are stored in localStorage ----
+    var STORAGE_KEY = 'fairwayScorecardRounds';
+
+    function loadRounds() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        var parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return []; // corrupted storage should never break the app
+      }
+    }
+
+    function saveRounds(rounds) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rounds));
+    }
+
+    // ---- Formatting helpers ----
+    // Golf-style vs-par display: +3 over, -2 under, E for even.
+    function formatVsPar(diff) {
+      if (diff === 0) return 'E';
+      return diff > 0 ? '+' + diff : '' + diff;
+    }
+
+    function formatAvgVsPar(avgDiff) {
+      if (avgDiff === 0) return 'E';
+      var rounded = Math.round(avgDiff * 10) / 10;
+      return rounded > 0 ? '+' + rounded.toFixed(1) : rounded.toFixed(1);
+    }
+
+    function formatDate(isoDate) {
+      // Parse at midday so the displayed day never shifts by timezone.
+      var d = new Date(isoDate + 'T12:00:00');
+      if (isNaN(d.getTime())) return isoDate;
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // ---- Rendering ----
+    function render(rounds) {
+      var body = document.getElementById('roundsBody');
+      var emptyMsg = document.getElementById('emptyMsg');
+      body.innerHTML = '';
+
+      // Show the most recent rounds first.
+      var sorted = rounds.slice().sort(function (a, b) {
+        if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+        return b.id - a.id;
+      });
+
+      sorted.forEach(function (round) {
+        var tr = document.createElement('tr');
+
+        // Build cells with textContent so course names can never inject HTML.
+        [formatDate(round.date), round.course, String(round.par), String(round.score), formatVsPar(round.score - round.par)]
+          .forEach(function (text) {
+            var td = document.createElement('td');
+            td.textContent = text;
+            tr.appendChild(td);
+          });
+
+        var actionTd = document.createElement('td');
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn btn-sm btn-outline-danger';
+        btn.textContent = 'Delete';
+        btn.setAttribute('data-delete-id', String(round.id));
+        actionTd.appendChild(btn);
+        tr.appendChild(actionTd);
+
+        body.appendChild(tr);
+      });
+
+      emptyMsg.hidden = rounds.length > 0;
+
+      // ---- Live stats ----
+      document.getElementById('statRounds').textContent = String(rounds.length);
+
+      if (rounds.length === 0) {
+        document.getElementById('statAvg').textContent = '—';
+        document.getElementById('statBest').textContent = '—';
+        document.getElementById('statVsPar').textContent = '—';
+        return;
+      }
+
+      var totalScore = 0;
+      var totalDiff = 0;
+      var best = rounds[0];
+      rounds.forEach(function (round) {
+        totalScore += round.score;
+        totalDiff += (round.score - round.par);
+        if (round.score < best.score) best = round;
+      });
+
+      document.getElementById('statAvg').textContent = (totalScore / rounds.length).toFixed(1);
+      document.getElementById('statBest').textContent = best.score + ' (' + best.course + ')';
+      document.getElementById('statVsPar').textContent = formatAvgVsPar(totalDiff / rounds.length);
+    }
+
+    // ---- App wiring ----
+    document.addEventListener('DOMContentLoaded', function () {
+      var rounds = loadRounds();
+
+      // Default the date picker to today.
+      var dateInput = document.getElementById('roundDate');
+      dateInput.value = new Date().toISOString().slice(0, 10);
+
+      render(rounds);
+
+      // Add a round.
+      document.getElementById('roundForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var date = dateInput.value;
+        var course = document.getElementById('courseName').value.trim();
+        var par = parseInt(document.getElementById('parInput').value, 10);
+        var score = parseInt(document.getElementById('scoreInput').value, 10);
+        var error = document.getElementById('formError');
+
+        var valid = date !== '' && course !== '' &&
+                    !isNaN(par) && par >= 27 && par <= 90 &&
+                    !isNaN(score) && score >= 18 && score <= 300;
+        if (!valid) {
+          error.hidden = false;
+          return;
+        }
+        error.hidden = true;
+
+        rounds.push({ id: Date.now(), date: date, course: course, par: par, score: score });
+        saveRounds(rounds);
+        render(rounds);
+
+        // Reset for the next entry, keeping par at 72 and date at today.
+        document.getElementById('courseName').value = '';
+        document.getElementById('scoreInput').value = '';
+        document.getElementById('parInput').value = '72';
+        dateInput.value = new Date().toISOString().slice(0, 10);
+        document.getElementById('courseName').focus();
+      });
+
+      // Delete a round (event delegation on the table body).
+      document.getElementById('roundsBody').addEventListener('click', function (event) {
+        var btn = event.target.closest('[data-delete-id]');
+        if (!btn) return;
+        var id = Number(btn.getAttribute('data-delete-id'));
+        rounds = rounds.filter(function (round) { return round.id !== id; });
+        saveRounds(rounds);
+        render(rounds);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tanner Nelson | Tableau Dashboard</title>
+  <!-- Bootstrap 5 CSS (jsDelivr CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom site styles -->
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Shared navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#0b2a4a;">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Tanner Nelson</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="resume.html">Résumé</a></li>
+          <li class="nav-item"><a class="nav-link active" href="tableau.html">Tableau Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="webapp.html">Web App</a></li>
+          <li class="nav-item"><a class="nav-link" href="html/scratch.html">Scratch Page</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-5">
+    <h1 class="section-title">Tableau Dashboard: LinkedIn Job Postings</h1>
+    <p>
+      For my Chapter 19 data visualization project, I built a Tableau workbook of
+      <strong>eight charts</strong> analyzing a dataset of 6,328 LinkedIn job postings
+      (2021&ndash;2023), joined with company information and employee benefit packages.
+      The workbook explores questions like:
+    </p>
+    <ul>
+      <li>Which job domains pay the most on average? (Product Management tops the list.)</li>
+      <li>How does pay vary by industry and by whether a job offers childcare and a 401(k)?</li>
+      <li>Where are entry-level jobs concentrated geographically, in the US and worldwide?</li>
+      <li>Do companies with more LinkedIn followers post more jobs?</li>
+      <li>How have posting volume, remote work, and hiring trended over time &mdash; and what does a forecast say comes next?</li>
+    </ul>
+    <p>
+      The dashboard below is <strong>fully interactive</strong>: hover over marks for exact
+      values, use the sheet tabs at the bottom of the visualization to switch between the
+      eight charts (Prompt 1 through Prompt 8), and use the toolbar to download or view it
+      full-screen. It is embedded live from my Tableau Public profile &mdash; not a screenshot.
+    </p>
+    <p>
+      <a class="btn btn-primary" href="https://public.tableau.com/app/profile/tanner.nelson2152/viz/TannerNelsonFinishedTableauproject/Prompt1">
+        Open the full workbook on Tableau Public
+      </a>
+    </p>
+
+    <!-- Fully interactive Tableau embed (live from Tableau Public) -->
+    <iframe class="tableau-frame"
+            src="https://public.tableau.com/views/TannerNelsonFinishedTableauproject/Prompt1?:showVizHome=no&:embed=true"
+            title="Tanner Nelson Finished Tableau project — interactive dashboard"
+            allowfullscreen></iframe>
+
+    <p class="text-muted mt-3">
+      Built in Tableau Desktop from the LinkedIn_RDB_three dataset (posting, company, and
+      benefits tables related in Tableau). Published to Tableau Public on November 10, 2026.
+    </p>
+  </main>
+
+  <!-- Shared footer -->
+  <footer class="site-footer">
+    <p class="mb-1">
+      Connect with me:
+      <a href="https://www.linkedin.com/in/tanner-nelson-84b321318">LinkedIn</a> |
+      <a href="mailto:tnelso21@byu.edu">tnelso21@byu.edu</a> |
+      <a href="https://public.tableau.com/app/profile/tanner.nelson2152">Tableau Public</a>
+    </p>
+    <p class="mb-0">&copy; 2026 Tanner Nelson &mdash; BYU Intro to Information Systems Final Project</p>
+  </footer>
+
+  <!-- Bootstrap 5 JS bundle (jsDelivr CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
